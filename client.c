@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   client.c                                           :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: chphan <marvin@42.fr>                      +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/04/22 14:46:23 by chphan            #+#    #+#             */
+/*   Updated: 2025/04/22 14:46:26 by chphan           ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "minitalk.h"
 
 void	send_char(char c, int pid)
@@ -16,13 +28,13 @@ void	send_char(char c, int pid)
 	}
 }
 
-int main    (int ac, char **av)
+int	main(int ac, char **av)
 {
 	int	i;
 	int	pid;
 
 	i = 0;
-    if (ac != 3 || !ft_strlen(av[2]))
+	if (ac != 3 || !ft_strlen(av[2]))
 	{
 		ft_printf("error\n");
 		return (1);
@@ -35,5 +47,5 @@ int main    (int ac, char **av)
 		i++;
 	}
 	send_char('\0', pid);
-    return (0);
+	return (0);
 }
