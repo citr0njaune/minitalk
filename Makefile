@@ -1,5 +1,7 @@
-CC = gcc
-CFLAGS = -Wall -Wextra -Werror
+OBJS_CLIENT                = $(CLIENT_SRCS:.c=.o)
+OBJS_SERVER                = $(SERVER_SRCS:.c=.o)
+CC = cc
+CFLAGS = -Wall -Wextra -Werror -fPIC
 
 CLIENT_SRCS = client.c
 SERVER_SRCS = server.c
@@ -9,25 +11,32 @@ SERVER_NAME = server
 
 LIBFT_PATH = libft
 LIBFT = $(LIBFT_PATH)/libft.a
-PRINTF_PATH = prinft
+PRINTF_PATH = ft_printf
 PRINTF = $(PRINTF_PATH)/ft_printf.a
 
 all: $(CLIENT_NAME) $(SERVER_NAME)
 
-$(CLIENT_NAME): $(CLIENT_SRCS) $(LIBFT) $(PRINTF)
-	$(CC) $(CFLAGS) $(CLIENT_SRCS) -L$(LIBFT_PATH) -lft -L$(PRINTF_PATH)
+$(CLIENT_NAME):  $(OBJS_CLIENT) $(LIBFT) $(PRINTF)
+	$(CC) $(CFLAGS) $(OBJS_CLIENT) $(LIBFT) $(PRINTF) -o $(CLIENT_NAME)
 
-$(SERVER_NAME): $(SERVER_SRCS) $(LIBFT) $(PRINTF)
-	$(CC) $(CFLAGS) $(SERVER_SRCS) -L$(LIBFT_PATH) -lft -L$(PRINTF_PATH)
+$(SERVER_NAME): $(OBJS_SERVER) $(LIBFT) $(PRINTF)
+	$(CC) $(CFLAGS) $(OBJS_SERVER) $(LIBFT) $(PRINTF) -o $(SERVER_NAME)
 
 $(LIBFT):
 	$(MAKE) -C $(LIBFT_PATH)
 
+$(PRINTF):
+	$(MAKE) -C $(PRINTF_PATH)
+
 clean:
 	$(MAKE) -C $(LIBFT_PATH) clean
+	$(MAKE) -C $(PRINTF_PATH) clean
+	rm -f $(OBJS_CLIENT)
+	rm -f $(OBJS_SERVER)
 
 fclean: clean
 	$(MAKE) -C $(LIBFT_PATH) fclean
+	$(MAKE) -C $(PRINTF_PATH) fclean
 	rm -f $(CLIENT_NAME) $(SERVER_NAME)
 
 re: fclean all

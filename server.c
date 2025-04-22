@@ -1,11 +1,11 @@
 #include "minitalk.h"
 
-void    handle_signal(int sig) //recu signal ?
+void    handle_signal(int sig)
 {
-    static unsigned char	current_char; //construction du bit, bit par bit 0000 0000
+    static unsigned char	current_char;
 	static int				bit_index; 
 
-	current_char |= (signal == SIGUSR1); // si le signal est bien SIGUSR1( bit = 1) alors on ajoute 1 dans le 0000 000X sur le X et ensuite le decale petit a petit avec la ligne 20, info+ c'est a chaque signal recu 
+	current_char |= (sig == SIGUSR1);
 	bit_index++;
 	if (bit_index == 8)
 	{
@@ -21,8 +21,10 @@ void    handle_signal(int sig) //recu signal ?
 
 int main(void)
 {
-    ft_printf("SERVER PID: %d\n", get_pid());
+    ft_printf("SERVER PID: %d\n", getpid());
     signal(SIGUSR1, handle_signal);
 	signal(SIGUSR2, handle_signal);
+	while (1)
+		pause();
     return (0);
 }
